@@ -7,6 +7,7 @@ public class MazeSolver {
 	private boolean[][] maze;
 	private int width;
 	private int height;
+	private boolean animate;
 	private static final HashMap<Vector, Vector> RIGHT_VECTORS = new HashMap<Vector, Vector>() {
 		{
 			put(new Vector(1,0), new Vector(0,1));
@@ -16,13 +17,14 @@ public class MazeSolver {
 		}
 	};
 	
-	public MazeSolver(boolean[][] maze) {
+	public MazeSolver(boolean[][] maze, boolean animate) {
 		this.maze = maze;
 		this.width = maze.length;
 		this.height = maze[0].length;
+		this.animate = animate;
 	}
 	
-	public void walk(int x, int y, int direction) { //Immer vorgehen, wenn wand direkt oder er berührt grade keine Wand: Sonderfall
+	public void walk() {
 		boolean[][] path = new boolean[width][height];
 		Vector startPos = new Vector(1,0);
 		Vector pos = startPos;
@@ -56,6 +58,13 @@ public class MazeSolver {
 	}
 	
 	private void setPathAndDraw(Vector pos, boolean[][] path) {
+		if(animate) {
+			try {
+				Thread.sleep(150);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		path[pos.getX()][pos.getY()] = true;
 		Maze.draw(pos.getX(), pos.getY(), maze, path);
 	}
@@ -80,7 +89,8 @@ public class MazeSolver {
 	
 	public static void main(String... args) {
 		Random random = new Random();
-		MazeSolver solver = new MazeSolver(Maze.generateMaze(random.nextInt(8) + 3, random.nextInt(8) + 3));
-		solver.walk(0, 0, 0);
+		boolean animate = false;
+		MazeSolver solver = new MazeSolver(Maze.generateMaze(32, 32), animate);
+		solver.walk();
 	}
 }
