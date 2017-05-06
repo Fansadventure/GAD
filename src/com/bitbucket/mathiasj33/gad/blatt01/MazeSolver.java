@@ -22,7 +22,7 @@ public class MazeSolver {
 		this.height = maze[0].length;
 	}
 	
-	public void walk(int x, int y, int direction) { //Immer vorgehen, wenn wand direkt oder er berührt grade keine Wand: Sonderfall
+	public void walk(int x, int y, int direction) { Alles nochmal überprüfen, Zip archiv, AUFPASSEN MIT PACKAGES
 		boolean[][] path = new boolean[width][height];
 		Vector startPos = new Vector(1,0);
 		Vector pos = startPos;
