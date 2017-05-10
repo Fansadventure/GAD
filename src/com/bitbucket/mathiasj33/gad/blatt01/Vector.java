@@ -13,16 +13,16 @@ public class Vector {
 		return new Vector(x + other.x, y + other.y);
 	}
 
+	public Vector negate() {
+		return new Vector(-x, -y);
+	}
+	
 	public int getX() {
 		return x;
 	}
 
 	public int getY() {
 		return y;
-	}
-
-	public Vector negate() {
-		return new Vector(-x, -y);
 	}
 	
 	@Override

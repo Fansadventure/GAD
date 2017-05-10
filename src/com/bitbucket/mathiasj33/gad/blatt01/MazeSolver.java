@@ -1,11 +1,10 @@
 package com.bitbucket.mathiasj33.gad.blatt01;
 
 import java.util.HashMap;
-import java.util.Random;
 
 public class MazeSolver {
 	private boolean[][] maze;
-	private int width;
+	private int width;	
 	private int height;
 	private boolean animate;
 	private static final HashMap<Vector, Vector> RIGHT_VECTORS = new HashMap<Vector, Vector>() {
@@ -88,9 +87,8 @@ public class MazeSolver {
 	}
 	
 	public static void main(String... args) {
-		Random random = new Random();
 		boolean animate = false;
-		MazeSolver solver = new MazeSolver(Maze.generateMaze(32, 32), animate);
+		MazeSolver solver = new MazeSolver(Maze.generateMaze(25, 25), animate);
 		solver.walk();
 	}
 }
