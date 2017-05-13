@@ -85,7 +85,10 @@ public class TestBinSea {
 		int[] test = {-10, 33, 50, 99, 123, 4242};
 		Interval testInterval = new NonEmptyInterval(4500, 5000);
 		Interval actual = BinSea.search(test, testInterval);
-
+		assert actual instanceof EmptyInterval;
+		
+		testInterval = new NonEmptyInterval(-100, -11);
+		actual = BinSea.search(test, testInterval);
 		assert actual instanceof EmptyInterval;
 	}
 }	
