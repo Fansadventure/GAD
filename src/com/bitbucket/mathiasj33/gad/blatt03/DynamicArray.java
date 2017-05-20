@@ -55,7 +55,7 @@ public class DynamicArray {
 		}
 	}
 	
-	private void copyToNewArray(Interval interval, int[] array) { //the used Elements are shifted to the beginning of the array
+	private void copyToNewArray(Interval interval, int[] array) { //the used Elements are shifted to the beginning of the new array
 		if(interval instanceof EmptyInterval) return;
 		int i = interval.getFrom();
 		int counter = 0;
