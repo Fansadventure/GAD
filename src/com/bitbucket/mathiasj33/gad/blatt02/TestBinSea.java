@@ -8,8 +8,6 @@ public class TestBinSea {
 	@Test
 	public void testSearch() {
 		int[] array = {-10, 33, 50, 99, 123, 4242};
-		System.out.println(BinSea.search(array, 99, true));
-		System.out.println(BinSea.search(array, new NonEmptyInterval(80, 700)));
 
 		int[] test = {-10, 33, 50, 99, 123, 4242};
 		int lower = BinSea.search(test, 80, true);
