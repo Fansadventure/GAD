@@ -7,17 +7,12 @@ import java.util.Scanner;
 import java.util.function.Consumer;
 
 public class Client {
-
-	private static String line;
-	private static Consumer<Integer> callback;
 	
 	public static void startClient(String line, Consumer<Integer> callback) throws Exception {
-		Client.line = line;
-		Client.callback = callback;
-		main(new String[]{});
+		main(new String[]{}, line, callback);
 	}
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args, String l, Consumer<Integer> callback) throws Exception {
 		// Configuration
 		String masterHost = "127.0.0.1";
 		int masterClientPort = 5555;
@@ -25,8 +20,8 @@ public class Client {
 		//TODO: just for testing purposes
 		String line;
 		
-		if(Client.line != null) {
-			line = Client.line;
+		if(l != null) {
+			line = l;
 		} else {
 			System.out.println("Examples: read key");
 			System.out.println("          store key 42");
