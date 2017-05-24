@@ -9,7 +9,7 @@ import java.net.Socket;
 public class Master implements Runnable {
 	private Socket client;
 	private static Socket[] storeConnections;
-	private static HashString hashString;
+	private static HashString hashFunction;
 
 	public Master(Socket client) {
 		this.client = client;
@@ -39,16 +39,7 @@ public class Master implements Runnable {
 		System.out.println("Received: " + request);
 		IResponse response = null;
 
-		// *****************************************
-		// TODO: Lesen Sie hier den request aus, und entscheiden über die Hash
-		// Funktion des Keys,
-		// welcher Store verwendet werden soll. Beachten Sie hier, dass der
-		// selbe Store evtl. von
-		// verschiedenen Clients gleichzeitig angefragt werden kann (Stichwort
-		// "synchronized").
-		// *****************************************
-
-		int hash = hashString.hash(request.getKey());
+		int hash = hashFunction.hash(request.getKey());
 		Socket store = storeConnections[hash];
 
 		synchronized (store) {
@@ -89,7 +80,7 @@ public class Master implements Runnable {
 		int clientServerPort = 5555;
 
 		storeConnections = new Socket[storeCount];
-		hashString = new HashString(storeCount);
+		hashFunction = new HashString(storeCount);
 
 		ServerSocket storeServer = new ServerSocket(storeServerPort);
 		try {

@@ -27,11 +27,13 @@ public class Store {
 				RequestVisitor rv = new RequestVisitor();
 				Mutable<IResponse> response = new Mutable<IResponse>();
 				rv.__((ReadRequest readRequest) -> {
-					 String key = readRequest.getKey();
-					 ReadResponse readResponse;
-					 if(table.containsKey(key)) readResponse = new ReadResponse(table.get(key));
-					 else readResponse = new ReadResponse();
-					 response.set(readResponse);
+					String key = readRequest.getKey();
+					ReadResponse readResponse;
+					if (table.containsKey(key))
+						readResponse = new ReadResponse(table.get(key));
+					else
+						readResponse = new ReadResponse();
+					response.set(readResponse);
 
 				}, (StoreRequest storeRequest) -> {
 					table.put(storeRequest.getKey(), storeRequest.getValue());
