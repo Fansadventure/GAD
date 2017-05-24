@@ -15,8 +15,9 @@ public class Store {
 		int masterStorePort = 5000;
 
 		Hashtable<String, Integer> table = new Hashtable<>();
-
+		System.out.println("Start store");
 		Socket master = new Socket(masterHost, masterStorePort);
+		System.out.println("Connected.");
 		try {
 			while (true) {
 				ObjectInputStream masterIn = new ObjectInputStream(master.getInputStream());
