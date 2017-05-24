@@ -29,7 +29,7 @@ public class HashString {
 	 * @return der Hashwert des Schlüssels
 	 */
 	public int hash(String key) {
-		synchronized(this) {
+		synchronized(this) {  //the possible vector modifications have to be thread safe
 			if(key.length() > hashVector.size()) {
 				int neededValues = key.length() - hashVector.size();
 				generateNewVectorValues(neededValues);

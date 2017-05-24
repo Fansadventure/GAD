@@ -1,3 +1,5 @@
+package com.bitbucket.mathiasj33.gad.blatt03;
+
 import java.io.IOException;
 import java.io.Serializable;
 
