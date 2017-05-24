@@ -1,12 +1,14 @@
 package com.bitbucket.mathiasj33.gad.blatt03;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * Die Klasse {@link HashString} kann dazu verwendet werden, Strings zu hashen.
  */
 public class HashString {
 
 	private int size;
-	private Vector vector = new Vector();
+	private Vector hashVector = new Vector();
 
 	/**
 	 * Dieser Konstruktor initialisiert ein {@link HashString} Objekt für einen
@@ -17,7 +19,6 @@ public class HashString {
 	 */
 	public HashString(int size) {
 		this.size = size;
-		vector = new Vector(2,4,261,16);
 	}
 
 	/**
@@ -28,17 +29,30 @@ public class HashString {
 	 * @return der Hashwert des Schlüssels
 	 */
 	public int hash(String key) {
-		if(key.length() < vector.size()) {
-			int neededValues = key.length() - vector.size();
-			generateNewVectorValues(neededValues);
+		synchronized(this) {
+			if(key.length() > hashVector.size()) {
+				int neededValues = key.length() - hashVector.size();
+				generateNewVectorValues(neededValues);
+			}
 		}
 		Vector keyVector = Vector.fromString(key);
-		Vector slicedVector = vector.slice(0, keyVector.size());
-		int hash = vector.scalarMult(keyVector) % size;
+		Vector slicedVector = hashVector.slice(0, keyVector.size());
+		int hash = slicedVector.scalarMult(keyVector) % size;
 		return hash;
 	}
 	
+	public void setHashVector(Vector vector) {
+		this.hashVector = vector;
+	}
+	
+	public Vector getHashVector() {
+		return hashVector;
+	}
+	
 	private void generateNewVectorValues(int amount) {
-		
+		for(int i = 0; i < amount; i++) {
+			int randomNumber = ThreadLocalRandom.current().nextInt(0, size);
+			hashVector.addValue(randomNumber);
+		}
 	}
 }
