@@ -28,31 +28,31 @@ class BinSea {
    * @param lower true für untere Intervallbegrenzung, false für obere Intervallbegrenzung
    * @return der passende Index, -1 wenn dieser nicht gefunden werden kann
    */
-  public static int search (int[] sortedData, int value, boolean lower) {
+  public static int search (int[] sortedData, int value, boolean lower) {  //As stated in Piazza, sortedData does not contain double values and the bounds are inclusive
 	  int length = sortedData.length;
-	  int l = 0;
-	  int u = length - 1;
+	  int lowerBound = 0;
+	  int upperBound = length - 1;
 	  int index = length / 2;
-	  int searched = sortedData[index];
-	  while(searched != value) {
-		  if(l == u && searched != value) {
-			  if(searched < value) {
-				  if(!lower && l == length - 1) return -1;
-				  return lower ? l : u+1;
+	  int found = sortedData[index];
+	  while(found != value) {
+		  if(lowerBound == upperBound && found != value) {
+			  if(found < value) {
+				  if(!lower && lowerBound == length - 1) return -1;
+				  return lower ? lowerBound : upperBound+1;
 			  }
-			  else if(searched > value) {
-				  if(lower && l == 0) return -1;
-				  return lower ? l-1 : u;
+			  else if(found > value) {
+				  if(lower && lowerBound == 0) return -1;
+				  return lower ? lowerBound-1 : upperBound;
 			  }
 		  }
-		  if(searched < value) {
-			  l = index + 1;
+		  if(found < value) {
+			  lowerBound = index + 1;
 		  }
-		  else if (searched > value) {
-			  u = index - 1;
+		  else if (found > value) {
+			  upperBound = index - 1;
 		  }
-		  index = (l + u) / 2;
-		  searched = sortedData[index];
+		  index = (lowerBound + upperBound) / 2;
+		  found = sortedData[index];
 	  }
 	  return index;
   }

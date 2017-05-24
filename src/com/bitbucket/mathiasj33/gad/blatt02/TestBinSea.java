@@ -8,8 +8,6 @@ public class TestBinSea {
 	@Test
 	public void testSearch() {
 		int[] array = {-10, 33, 50, 99, 123, 4242};
-		System.out.println(BinSea.search(array, 99, true));
-		System.out.println(BinSea.search(array, new NonEmptyInterval(80, 700)));
 
 		int[] test = {-10, 33, 50, 99, 123, 4242};
 		int lower = BinSea.search(test, 80, true);
@@ -85,7 +83,10 @@ public class TestBinSea {
 		int[] test = {-10, 33, 50, 99, 123, 4242};
 		Interval testInterval = new NonEmptyInterval(4500, 5000);
 		Interval actual = BinSea.search(test, testInterval);
-
+		assert actual instanceof EmptyInterval;
+		
+		testInterval = new NonEmptyInterval(-100, -11);
+		actual = BinSea.search(test, testInterval);
 		assert actual instanceof EmptyInterval;
 	}
 }	
