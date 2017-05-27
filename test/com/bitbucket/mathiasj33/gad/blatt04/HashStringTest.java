@@ -1,6 +1,7 @@
-package com.bitbucket.mathiasj33.gad.blatt03;
+package com.bitbucket.mathiasj33.gad.blatt04;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class HashStringTest {

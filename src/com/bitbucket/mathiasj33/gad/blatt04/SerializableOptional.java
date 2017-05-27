@@ -1,4 +1,4 @@
-package com.bitbucket.mathiasj33.gad.blatt03;
+package com.bitbucket.mathiasj33.gad.blatt04;
 
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.

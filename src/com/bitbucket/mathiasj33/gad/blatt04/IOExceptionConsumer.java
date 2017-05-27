@@ -1,4 +1,4 @@
-package com.bitbucket.mathiasj33.gad.blatt03;
+package com.bitbucket.mathiasj33.gad.blatt04;
 
 import java.io.IOException;
 import java.util.function.Consumer;

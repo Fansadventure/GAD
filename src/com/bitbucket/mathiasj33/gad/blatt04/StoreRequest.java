@@ -1,8 +1,8 @@
-package com.bitbucket.mathiasj33.gad.blatt03;
+package com.bitbucket.mathiasj33.gad.blatt04;
 
 import java.io.IOException;
 
-public class ReadRequest implements IRequest {
+public class StoreRequest implements IRequest {
 	private static final long serialVersionUID = 1L;
 
 	private String key;
@@ -12,13 +12,20 @@ public class ReadRequest implements IRequest {
 		return key;
 	}
 
-	public ReadRequest(String key) {
+	private int value;
+
+	public int getValue() {
+		return value;
+	}
+
+	public StoreRequest(String key, int value) {
 		this.key = key;
+		this.value = value;
 	}
 
 	@Override
 	public String toString() {
-		return "Read(" + key + ")";
+		return "Store(" + key + " <- " + value + ")";
 	}
 
 	@Override

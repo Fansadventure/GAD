@@ -1,4 +1,4 @@
-package com.bitbucket.mathiasj33.gad.blatt03;
+package com.bitbucket.mathiasj33.gad.blatt04;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -35,7 +35,7 @@ public class HashString {
 				generateNewVectorValues(neededValues);
 			}
 		}
-		Vector keyVector = Vector.fromString(key);
+		Vector keyVector = Vector.fromString(key, size);
 		Vector slicedVector = hashVector.slice(0, keyVector.size());
 		int hash = slicedVector.scalarMult(keyVector) % size;
 		return hash;

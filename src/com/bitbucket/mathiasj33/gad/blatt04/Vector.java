@@ -1,4 +1,4 @@
-package com.bitbucket.mathiasj33.gad.blatt03;
+package com.bitbucket.mathiasj33.gad.blatt04;
 
 import java.util.ArrayList;
 
@@ -11,10 +11,11 @@ public class Vector {
 		for(int v : values) addValue(v);
 	}
 	
-	public static Vector fromString(String s) {
+	public static Vector fromString(String s, int size) {
 		char[] chars = s.toCharArray();
 		Vector v = new Vector();
-		for(char c : chars) v.addValue((int) c);
+		for(char c : chars) v.addValue(((int) c )% size); //mod size, damit sichergestellt ist, 
+		//dass der Wert ein Element des Restklassenrings mod size ist
 		return v;
 	}
 	

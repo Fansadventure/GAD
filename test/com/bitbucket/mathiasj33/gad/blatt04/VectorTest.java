@@ -1,6 +1,7 @@
-package com.bitbucket.mathiasj33.gad.blatt03;
+package com.bitbucket.mathiasj33.gad.blatt04;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class VectorTest {
@@ -8,7 +9,7 @@ public class VectorTest {
 	@Test
 	public void testFromString() throws Exception {
 		String s = "test";
-		Vector v = Vector.fromString(s);
+		Vector v = Vector.fromString(s, 269);
 		for(int i = 0; i < s.length(); i++) {
 			assertEquals(s.charAt(i), v.get(i));
 		}

@@ -1,4 +1,4 @@
-package com.bitbucket.mathiasj33.gad.blatt03;
+package com.bitbucket.mathiasj33.gad.blatt04;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
