@@ -4,45 +4,39 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
-import java.util.function.Consumer;
 
 public class Client {
-	
-	public static void startClient(String line, Consumer<Integer> callback) throws Exception {
-		main(new String[]{}, line, callback);
-	}
-	
-	public static void main(String[] args, String l, Consumer<Integer> callback) throws Exception {
+
+	// public static void startClient(String line, Consumer<Integer> callback)
+	// throws Exception {
+	// main(new String[]{}, line, callback);
+	// }
+
+	public static void main(String[] args) throws Exception {
 		// Configuration
 		String masterHost = "127.0.0.1";
 		int masterClientPort = 5555;
 
-		//TODO: just for testing purposes
-		String line;
-		
-		if(l != null) {
-			line = l;
-		} else {
-			System.out.println("Examples: read key");
-			System.out.println("          store key 42");
-			System.out.println("Please type your request:");
+		System.out.println("Examples: read key");
+		System.out.println("          store key 42");
+		System.out.println("Please type your request:");
 
-			Scanner scanner = new Scanner(System.in);
-			line = scanner.nextLine();
-			scanner.close();
-		}
+		Scanner scanner = new Scanner(System.in);
+		String line = scanner.nextLine();
+		scanner.close();
+
 		String[] lineParts = line.split(" ");
 		System.out.println(lineParts);
 		IRequest request;
 
-		if(lineParts[0].equals("read")) {
+		if (lineParts[0].equals("read")) {
 			request = new ReadRequest(lineParts[1]);
-		} else if(lineParts[0].equals("store")) {
+		} else if (lineParts[0].equals("store")) {
 			request = new StoreRequest(lineParts[1], Integer.parseInt(lineParts[2]));
 		} else {
 			throw new IllegalArgumentException("Illegal input");
 		}
-		
+
 		System.out.println("Sending: " + request);
 		Socket master = new Socket(masterHost, masterClientPort);
 		try {
@@ -57,11 +51,10 @@ public class Client {
 				SerializableOptional<Integer> result = readResponse.getValue();
 				if (result.isPresent()) {
 					System.out.println("Read response with value " + result.get() + ".");
-					if(callback != null) callback.accept(result.get());
-				}
-				else {
+					//if (callback != null) callback.accept(result.get());
+				} else {
 					System.out.println("Read response: Unknown key!");
-					if(callback != null) callback.accept(null);
+					//if (callback != null) callback.accept(null);
 				}
 			}, (storeResponse) -> {
 				System.out.println("Store successful!");
