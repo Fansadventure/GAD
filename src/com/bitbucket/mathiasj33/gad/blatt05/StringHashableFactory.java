@@ -1,0 +1,10 @@
+package com.bitbucket.mathiasj33.gad.blatt05;
+
+
+public class StringHashableFactory implements HashableFactory<String> {
+
+  @Override public DoubleHashable<String> create (int size) {
+    return new DoubleHashString(size);
+  }
+
+}
