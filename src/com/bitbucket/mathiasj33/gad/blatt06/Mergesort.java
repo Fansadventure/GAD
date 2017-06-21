@@ -2,22 +2,21 @@ package com.bitbucket.mathiasj33.gad.blatt06;
 
 public class Mergesort implements SortingBase {
 	
-	private int runs = 0;
+	private int[] result;
 	
 	public void sort(int[] numbers) {
+		result = new int[numbers.length];
 		mergeSort(numbers, 0, numbers.length - 1);
-		System.out.println(runs);
 	}
 
 	private void mergeSort(int[] numbers, int left, int right) {
 		if (left == right)
 			return;
-		int m = (left+right)/2;
-		//long time = System.currentTimeMillis();
+		int m = left+(right-left)/2;
+		
 		mergeSort(numbers, left, m);
 		mergeSort(numbers, m + 1, right);
-		//System.out.println("MS took " + (System.currentTimeMillis() - time) + " ms.");
-		int[] result = new int[numbers.length];
+		
 		int j = left;
 		int k = m + 1;
 		for (int i = 0; i <= right - left; i++) {
@@ -37,10 +36,5 @@ public class Mergesort implements SortingBase {
 
 	public String getName() {
 		return "Mergesort";
-	}
-	
-	public static void main(String[] args) {
-		int[] a = new int[]{8,9,8,7,6,5,4,3,2,1};
-		new Mergesort().sort(a);
 	}
 }

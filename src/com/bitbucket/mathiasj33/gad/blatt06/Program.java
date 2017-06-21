@@ -7,26 +7,26 @@ import java.util.LinkedList;
 public class Program {
 	public static void main(String[] args) {
 		// Anzahl der zu sortierenden Elemente
-		int n = 8;
+		//int n = 1000000;
 		// int n = 100;
-		// int n = 1000;
-		// int n = 10000;
+		//int n = 1000;
+		int n = 10000;
 		// int n = 100000;
-		// int n = 1000000;
-		// int n = 10000000;
+		 //int n = 1000000;
+		//int n = 10000000;
 
 		// TODO: Zahlen für den Vergleich vorbereiten
 		Random r = new Random();
 		int[] numbers = new int[n];
 		for (int i = 0; i < n; i++) {
 			// Mit zufälligen Zahlen initialisieren
-			numbers[i] = r.nextInt();
+			numbers[i] = r.nextInt(); //-> quicksort etwas schneller
 
 			// Mit bereits sortierten Zahlen initialisieren
-			// numbers[i] = ...
+			//numbers[i] = i; //-> quicksort langsamer
 
 			// Mit invers sortierten Zahlen initialisieren
-			// numbers[i] = ...
+			//numbers[i] = n-i; //-> quicksort langsamer
 		}
 		printArray("vorher: ", numbers);
 
