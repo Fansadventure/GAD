@@ -65,12 +65,4 @@ public class BinomialTreeNode {
 			return b;
 		}
 	}
-	
-	@Override
-	public String toString() {
-		if(subTrees.isEmpty()) return ""+getKey();
-		String result = ""+getKey()+"(";
-		for(BinomialTreeNode tn : subTrees) result += tn + ";";
-		return result.substring(0, result.length()-1)+")";
-	}
 }

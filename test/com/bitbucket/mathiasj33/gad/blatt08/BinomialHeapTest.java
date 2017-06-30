@@ -6,11 +6,7 @@ import static org.junit.Assert.*;
 public class BinomialHeapTest {
 
 	@Test
-	public void testMin() throws Exception {
-	}
-
-	@Test
-	public void testInsert() throws Exception {
+	public void test() throws Exception {
 		BinomialHeap heap = new BinomialHeap();
 		heap.insert(1);
 		heap.insert(2);
@@ -25,10 +21,13 @@ public class BinomialHeapTest {
 		heap.insert(-6);
 		assertEquals(-6, heap.deleteMin());
 		assertEquals(2, heap.min());
+		
+		heap = new BinomialHeap();
+		for(int i = 0; i < 1000; i++) {
+			heap.insert(i);
+		}
+		for(int i = 0; i < 1000; i++) {
+			assertEquals(i, heap.deleteMin());
+		}
 	}
-
-	@Test
-	public void testDeleteMin() throws Exception {
-	}
-
 }

@@ -1,12 +1,11 @@
 package com.bitbucket.mathiasj33.gad.blatt08;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class BinomialHeap {
 
-	private List<BinomialTreeNode> trees = new ArrayList<>();
+	private List<BinomialTreeNode> trees = new ArrayList<>(); TODO: Fehlerbehandlung
 	private BinomialTreeNode min;
 	
 	public BinomialHeap() {
@@ -42,6 +41,7 @@ public class BinomialHeap {
 	private void merge(BinomialTreeNode node) {
 		if(node.rank() >= trees.size()) {
 			if(node.getKey() < min.getKey()) min = node;
+			while(trees.size() <= node.rank()) trees.add(null); 
 			trees.add(node.rank(), node);
 			return;
 		}
