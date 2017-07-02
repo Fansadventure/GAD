@@ -1,17 +1,16 @@
 package com.bitbucket.mathiasj33.gad.blatt07;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class RadixSort {
 	
 	public int key(Integer element, int digit) throws IllegalArgumentException {
 		if(element < 0 || digit < 0) throw new IllegalArgumentException();
-		String stringRepresentation = element.toString();
-		if(digit >= stringRepresentation.length()) return 0;
-		int index = stringRepresentation.length() - digit;
-		return Integer.parseInt(stringRepresentation.substring(index-1, index));
+		String elemString = element.toString();
+		if(digit >= elemString.length()) return 0;  //digit is an index from the right
+		int index = elemString.length() - digit;
+		return Integer.parseInt(elemString.substring(index-1, index));
 	}
 
 	public void concatenate(ArrayList<Integer>[] buckets, Integer[] elements) {

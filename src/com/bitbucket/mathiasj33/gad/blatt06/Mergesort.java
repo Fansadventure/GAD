@@ -2,6 +2,7 @@ package com.bitbucket.mathiasj33.gad.blatt06;
 
 public class Mergesort implements SortingBase {
 	
+	private static int NUM_THREADS = 0;
 	private int[] result;
 	
 	public void sort(int[] numbers) {
@@ -14,9 +15,36 @@ public class Mergesort implements SortingBase {
 			return;
 		int m = left+(right-left)/2;
 		
-		mergeSort(numbers, left, m);
-		mergeSort(numbers, m + 1, right);
-		
+		boolean threading = false;
+		synchronized(this) {
+			if(NUM_THREADS < 1) {
+				threading = true;
+				NUM_THREADS+=2;
+			}
+		}
+		if(threading) {
+			System.out.println("THREAD");
+			Thread t1 = new Thread(() -> mergeSort(numbers, left, m));
+			t1.start();
+			mergeSort(numbers, m + 1, right);
+			try {
+				t1.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			mergeSort(numbers, left, m);
+			mergeSort(numbers, m + 1, right);
+		}
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		synchronized(this){
 		int j = left;
 		int k = m + 1;
 		for (int i = 0; i <= right - left; i++) {
@@ -31,7 +59,7 @@ public class Mergesort implements SortingBase {
 		}
 
 		for (int i = 0; i <= right - left; i++)
-			numbers[left + i] = result[i];
+			numbers[left + i] = result[i];}
 	}
 
 	public String getName() {

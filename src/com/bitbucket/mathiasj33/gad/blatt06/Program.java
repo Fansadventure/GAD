@@ -10,7 +10,7 @@ public class Program {
 		//int n = 1000000;
 		// int n = 100;
 		//int n = 1000;
-		int n = 10000;
+		int n = 100;
 		// int n = 100000;
 		 //int n = 1000000;
 		//int n = 10000000;
@@ -20,19 +20,20 @@ public class Program {
 		int[] numbers = new int[n];
 		for (int i = 0; i < n; i++) {
 			// Mit zufälligen Zahlen initialisieren
-			numbers[i] = r.nextInt(); //-> quicksort etwas schneller
+			//numbers[i] = r.nextInt(); //-> quicksort etwas schneller
 
 			// Mit bereits sortierten Zahlen initialisieren
 			//numbers[i] = i; //-> quicksort langsamer
 
 			// Mit invers sortierten Zahlen initialisieren
-			//numbers[i] = n-i; //-> quicksort langsamer
+			numbers[i] = n-i; //-> quicksort langsamer
 		}
 		printArray("vorher: ", numbers);
 
 		LinkedList<SortingBase> implementations = new LinkedList<SortingBase>();
-		implementations.add(new Quicksort());
+		//implementations.add(new Quicksort());
 		implementations.add(new Mergesort());
+		//implementations.add(new NaturalMergesort());
 
 		for (SortingBase sorter : implementations) {
 			int[] numbersImpl = Arrays.copyOf(numbers, n);
