@@ -5,12 +5,8 @@ import java.util.List;
 
 public class BinomialHeap {
 
-	private List<BinomialTreeNode> trees = new ArrayList<>(); TODO: Fehlerbehandlung
+	private List<BinomialTreeNode> trees = new ArrayList<>();
 	private BinomialTreeNode min;
-	
-	public BinomialHeap() {
-		
-	}
 
 	/**
 	 * Diese Methode ermittelt das minimale Element im binomialen Haufen.
@@ -39,24 +35,25 @@ public class BinomialHeap {
 	}
 	
 	private void merge(BinomialTreeNode node) {
-		if(node.rank() >= trees.size()) {
+		int rank = node.rank();
+		if(rank >= trees.size()) {
 			if(node.getKey() < min.getKey()) min = node;
-			while(trees.size() <= node.rank()) trees.add(null); 
-			trees.add(node.rank(), node);
+			while(trees.size() <= rank) trees.add(null); 
+			trees.add(rank, node);
 			return;
 		}
-		else if(trees.get(node.rank()) == null) {
+		else if(trees.get(rank) == null) {
 			if(node.getKey() < min.getKey()) min = node;
-			trees.set(node.rank(), node);
+			trees.set(rank, node);
 			return;
 		}
 		
-		BinomialTreeNode tree = trees.get(node.rank());
-		trees.set(node.rank(), null);
+		BinomialTreeNode tree = trees.get(rank);
+		trees.set(rank, null);
 		tree = BinomialTreeNode.merge(tree, node);
 		
 		boolean foundPlace = false;
-		for(int i = node.rank()+1; i < trees.size(); i++) {
+		for(int i = rank+1; i < trees.size(); i++) {
 			if(trees.get(i) == null) {
 				trees.set(i, tree);
 				foundPlace = true;
@@ -68,7 +65,7 @@ public class BinomialHeap {
 		if(!foundPlace) {
 			trees.add(tree);
 		}
-		if(tree.getKey() < min.getKey()) min = tree;
+		if(tree.getKey() <= min.getKey()) min = tree;
 	}
 
 	/**
@@ -78,6 +75,7 @@ public class BinomialHeap {
 	 * @return das minimale Element
 	 */
 	public int deleteMin() {
+		if(min == null) throw new IllegalStateException("Heap is empty");
 		int minValue = min.getKey();
 		trees.remove(min);
 		for(BinomialTreeNode node : min.deleteMin()) {
