@@ -93,22 +93,23 @@ public class AVLTreeNode {
 	 *            der zu suchende Schlüssel
 	 * @return 'true', falls der Schlüssel gefunden wurde, 'false' sonst
 	 */
-	public boolean find(int key) { // TODO: Das hier stimmt noch nicht ganz
-		if (locate(key).key == key)
+	public boolean find(int key) {
+		if (this.key == key)
 			return true;
+		if (left != null && key <= this.key)
+			return left.find(key);
+		if (right != null && key > right.key)
+			return right.find(key);
 		return false;
 	}
 
 	public AVLTreeNode insert(int key) {
-		Stack<PathNode> path = getPathToLocate(key);
+		Stack<PathNode> path = locateAndGetPath(key);
 		AVLTreeNode newParent = path.peek().node;
-		if (key <= newParent.key)
-			newParent.left = new AVLTreeNode(key);
-		else
-			newParent.right = new AVLTreeNode(key);
+		insertChild(newParent, key);
 
 		AVLTreeNode lastNode = null;
-		while (!path.isEmpty()) {
+		while (!path.isEmpty()) { // walk the path backwards
 			AVLTreeNode avlNode = path.pop().node;
 			avlNode.updateBalance();
 			if (avlNode.balance == 0) {
@@ -118,30 +119,51 @@ public class AVLTreeNode {
 				lastNode = avlNode;
 				continue;
 			}
-
+			// perform the correct rotation
 			int currentSignum = Integer.signum(avlNode.balance);
 			int lastSignum = Integer.signum(lastNode.balance);
 			if (currentSignum == lastSignum) {
+				String dir = currentSignum == 1 ? "left" : "right";
 				AVLTreeNode newTop = currentSignum == 1 ? avlNode.rotateLeft() : avlNode.rotateRight();
-				return updateTopAfterRotate(newTop, path);
+				AVLTreeNode result = updateParentAfterRotate(newTop, path);
+				return result;
 			} else {
 				if (currentSignum == -1) {
 					AVLTreeNode newTop = lastNode.rotateLeft();
 					avlNode.left = newTop;
 					newTop = avlNode.rotateRight();
-					return updateTopAfterRotate(newTop, path);
+					AVLTreeNode result = updateParentAfterRotate(newTop, path);
+					return result;
 				} else {
 					AVLTreeNode newTop = lastNode.rotateRight();
-					right = newTop;
+					avlNode.right = newTop;
 					newTop = avlNode.rotateLeft();
-					return updateTopAfterRotate(newTop, path);
+					AVLTreeNode result = updateParentAfterRotate(newTop, path);
+					return result;
 				}
 			}
 		}
 		return this;
 	}
 
-	private AVLTreeNode updateTopAfterRotate(AVLTreeNode newTop, Stack<PathNode> path) {
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("digraph {\n");
+		this.dot(sb);
+		sb.append("}");
+		return sb.toString();
+	}
+	
+	private void insertChild(AVLTreeNode node, int key) {
+		if (key <= node.key) {
+			node.left = new AVLTreeNode(key);
+		} else {
+			node.right = new AVLTreeNode(key);
+		}
+	}
+
+	private AVLTreeNode updateParentAfterRotate(AVLTreeNode newTop, Stack<PathNode> path) {
 		if (!path.isEmpty()) {
 			PathNode parent = path.pop();
 			if (parent.parentDecision == Direction.RIGHT)
@@ -172,10 +194,6 @@ public class AVLTreeNode {
 		return leftChild;
 	}
 
-	public AVLTreeNode locate(int key) {
-		return getPathToLocate(key).pop().node;
-	}
-
 	private void updateBalance() {
 		balance = calculateBalance();
 	}
@@ -190,9 +208,8 @@ public class AVLTreeNode {
 		return right.height() - left.height();
 	}
 
-	private Stack<PathNode> getPathToLocate(int key) {
+	private Stack<PathNode> locateAndGetPath(int key) {
 		Stack<PathNode> path = new Stack<>();
-
 		AVLTreeNode current = this;
 		while (true) {
 			if (key <= current.key) {

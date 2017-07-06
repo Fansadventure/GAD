@@ -17,10 +17,12 @@ public class Program {
 //		tree.insertAll(2,1,0,-1,-2);
 //		tree.insertAll(5,2,3,1,8,7,10,6,9,11,12);
 		
+//		tree.insertAll(15, 33, 10, 42, 22, 49, 3, 4, 47, 40, 26, 30, 24, 7, 11, 20, 35, 43, 28, 14, 2, 18, 31, 5);
+		
 		while (scanner.hasNextInt()) {
 			int n = scanner.nextInt();
+			System.err.println("Inserting: " + n);
 			tree.insert(n);
-			System.out.println(tree.toString());
 			if (!tree.validAVL()) {
 				System.out.println(String.format("Baum ungueltig bei insert(%d)", n));
 				System.out.println(tree.toString());
