@@ -1,7 +1,6 @@
 package com.bitbucket.mathiasj33.gad.blatt09;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
@@ -49,7 +48,7 @@ public class AVLTreeNode {
 	public boolean validAVL() {
 		if (isLeaf())
 			return true;
-		int diff = getBalance();
+		int diff = calculateBalance();
 		if (Math.abs(diff) > 1)
 			return false;
 		if (balance != diff)
@@ -94,67 +93,122 @@ public class AVLTreeNode {
 	 *            der zu suchende Schlüssel
 	 * @return 'true', falls der Schlüssel gefunden wurde, 'false' sonst
 	 */
-	public boolean find(int key) {
+	public boolean find(int key) { // TODO: Das hier stimmt noch nicht ganz
 		if (locate(key).key == key)
 			return true;
 		return false;
 	}
 
-	public void insert(int key) {
-		Stack<AVLTreeNode> path = getPathStack(key, null);
-		AVLTreeNode newParent = path.peek();
+	public AVLTreeNode insert(int key) {
+		Stack<PathNode> path = getPathToLocate(key);
+		AVLTreeNode newParent = path.peek().node;
 		if (key <= newParent.key)
 			newParent.left = new AVLTreeNode(key);
 		else
 			newParent.right = new AVLTreeNode(key);
 
+		AVLTreeNode lastNode = null;
 		while (!path.isEmpty()) {
-			path.pop().updateBalance();
+			AVLTreeNode avlNode = path.pop().node;
+			avlNode.updateBalance();
+			if (avlNode.balance == 0) {
+				lastNode = avlNode;
+				return this;
+			} else if (Math.abs(avlNode.balance) == 1) {
+				lastNode = avlNode;
+				continue;
+			}
+
+			int currentSignum = Integer.signum(avlNode.balance);
+			int lastSignum = Integer.signum(lastNode.balance);
+			if (currentSignum == lastSignum) {
+				AVLTreeNode newTop = currentSignum == 1 ? avlNode.rotateLeft() : avlNode.rotateRight();
+				return updateTopAfterRotate(newTop, path);
+			} else {
+				if (currentSignum == -1) {
+					AVLTreeNode newTop = lastNode.rotateLeft();
+					avlNode.left = newTop;
+					newTop = avlNode.rotateRight();
+					return updateTopAfterRotate(newTop, path);
+				} else {
+					AVLTreeNode newTop = lastNode.rotateRight();
+					right = newTop;
+					newTop = avlNode.rotateLeft();
+					return updateTopAfterRotate(newTop, path);
+				}
+			}
+		}
+		return this;
+	}
+
+	private AVLTreeNode updateTopAfterRotate(AVLTreeNode newTop, Stack<PathNode> path) {
+		if (!path.isEmpty()) {
+			PathNode parent = path.pop();
+			if (parent.parentDecision == Direction.RIGHT)
+				parent.node.right = newTop;
+			else
+				parent.node.left = newTop;
+			return this;
+		} else {
+			return newTop;
 		}
 	}
 
-	private void rotateLeft() {
-
+	private AVLTreeNode rotateLeft() {
+		AVLTreeNode rightChild = right;
+		right = rightChild.left;
+		rightChild.left = this;
+		rightChild.updateBalance();
+		updateBalance();
+		return rightChild;
 	}
 
-	private void rotateRight() {
+	private AVLTreeNode rotateRight() {
+		AVLTreeNode leftChild = left;
+		left = leftChild.right;
+		leftChild.right = this;
+		leftChild.updateBalance();
+		updateBalance();
+		return leftChild;
 	}
-	
+
 	public AVLTreeNode locate(int key) {
-		return getPathStack(key, null).pop();
+		return getPathToLocate(key).pop().node;
 	}
 
 	private void updateBalance() {
-		balance = getBalance();
+		balance = calculateBalance();
 	}
-	
-	private int getBalance() {
-		if(isLeaf()) return 0;
+
+	private int calculateBalance() {
+		if (isLeaf())
+			return 0;
 		if (right == null)
-			return -left.height();
+			return -1 - left.height();
 		else if (left == null)
-			return right.height();
+			return 1 + right.height();
 		return right.height() - left.height();
 	}
 
-	private Stack<AVLTreeNode> getPathStack(int key, Stack<AVLTreeNode> stack) {
-		if (stack == null)
-			stack = new Stack<AVLTreeNode>();
-		stack.add(this);
-		if (isLeaf())
-			return stack;
+	private Stack<PathNode> getPathToLocate(int key) {
+		Stack<PathNode> path = new Stack<>();
 
-		if (left == null) {
-			if (key <= this.key)
-				return stack;
-			return right.getPathStack(key, stack);
-		} else if (right == null) {
-			if (key > this.key)
-				return stack;
-			return left.getPathStack(key, stack);
+		AVLTreeNode current = this;
+		while (true) {
+			if (key <= current.key) {
+				path.push(new PathNode(current, Direction.LEFT));
+				if (current.left == null)
+					return path;
+				else
+					current = current.left;
+			} else if (key > current.key) {
+				path.push(new PathNode(current, Direction.RIGHT));
+				if (current.right == null)
+					return path;
+				else
+					current = current.right;
+			}
 		}
-		return key <= this.key ? left.getPathStack(key, stack) : right.getPathStack(key, stack);
-
 	}
 
 	/**

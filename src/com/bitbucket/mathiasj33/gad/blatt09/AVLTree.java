@@ -40,7 +40,7 @@ public class AVLTree {
 			root = new AVLTreeNode(key);
 			return;
 		}
-		root.insert(key);
+		root = root.insert(key);
 	}
 
 	/**
