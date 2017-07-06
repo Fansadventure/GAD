@@ -1,7 +1,9 @@
 package com.bitbucket.mathiasj33.gad.blatt09;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Diese Klasse implementiert einen Knoten in einem AVL-Baum.
@@ -36,6 +38,10 @@ public class AVLTreeNode {
 	public int height() {
 		if (isLeaf())
 			return 0;
+		else if (left == null)
+			return 1 + right.height();
+		else if (right == null)
+			return 1 + left.height();
 		else
 			return 1 + Math.max(left.height(), right.height());
 	}
@@ -43,18 +49,26 @@ public class AVLTreeNode {
 	public boolean validAVL() {
 		if (isLeaf())
 			return true;
-		int diff = right.height() - left.height();
+		int diff = getBalance();
 		if (Math.abs(diff) > 1)
 			return false;
 		if (balance != diff)
 			return false;
-		int maxLeft = left.getKeyList().stream().reduce(Integer::max).get();
-		if (maxLeft > key)
-			return false;
-		int maxRight = right.getKeyList().stream().reduce(Integer::max).get();
-		if (maxRight <= key)
-			return false;
-		return left.validAVL() && right.validAVL();
+		if (left != null) {
+			int maxLeft = left.getKeyList().stream().reduce(Integer::max).get();
+			if (maxLeft > key)
+				return false;
+			if (!left.validAVL())
+				return false;
+		}
+		if (right != null) {
+			int maxRight = right.getKeyList().stream().reduce(Integer::max).get();
+			if (maxRight <= key)
+				return false;
+			if (!right.validAVL())
+				return false;
+		}
+		return true;
 	}
 
 	private boolean isLeaf() {
@@ -66,8 +80,10 @@ public class AVLTreeNode {
 		keys.add(key);
 		if (isLeaf())
 			return keys;
-		keys.addAll(left.getKeyList());
-		keys.addAll(right.getKeyList());
+		if (left != null)
+			keys.addAll(left.getKeyList());
+		if (right != null)
+			keys.addAll(right.getKeyList());
 		return keys;
 	}
 
@@ -85,16 +101,16 @@ public class AVLTreeNode {
 	}
 
 	public void insert(int key) {
-		AVLTreeNode newParent = locate(key);
+		Stack<AVLTreeNode> path = getPathStack(key, null);
+		AVLTreeNode newParent = path.peek();
 		if (key <= newParent.key)
 			newParent.left = new AVLTreeNode(key);
 		else
 			newParent.right = new AVLTreeNode(key);
 
-	}
-
-	private void refreshBalance() {
-		balance = right.height() - left.height();
+		while (!path.isEmpty()) {
+			path.pop().updateBalance();
+		}
 	}
 
 	private void rotateLeft() {
@@ -102,18 +118,43 @@ public class AVLTreeNode {
 	}
 
 	private void rotateRight() {
-
-	}
-
-	public AVLTreeNode getPathStack(int key) {
-		TODO: hier weiter machen
 	}
 	
 	public AVLTreeNode locate(int key) {
+		return getPathStack(key, null).pop();
+	}
+
+	private void updateBalance() {
+		balance = getBalance();
+	}
+	
+	private int getBalance() {
+		if(isLeaf()) return 0;
+		if (right == null)
+			return -left.height();
+		else if (left == null)
+			return right.height();
+		return right.height() - left.height();
+	}
+
+	private Stack<AVLTreeNode> getPathStack(int key, Stack<AVLTreeNode> stack) {
+		if (stack == null)
+			stack = new Stack<AVLTreeNode>();
+		stack.add(this);
 		if (isLeaf())
-			return this;
-		else
-			return key <= this.key ? left.locate(key) : right.locate(key);
+			return stack;
+
+		if (left == null) {
+			if (key <= this.key)
+				return stack;
+			return right.getPathStack(key, stack);
+		} else if (right == null) {
+			if (key > this.key)
+				return stack;
+			return left.getPathStack(key, stack);
+		}
+		return key <= this.key ? left.getPathStack(key, stack) : right.getPathStack(key, stack);
+
 	}
 
 	/**

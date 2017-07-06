@@ -9,9 +9,6 @@ public class AVLTree {
 	 */
 	AVLTreeNode root = null;
 
-	public AVLTree() {
-	}
-
 	/**
 	 * Diese Methode ist zum Debuggen gedacht und prüft, ob es sich um einen
 	 * validen AVL-Baum handelt. Dabei werden die folgenden Eigenschaften geprüft:
@@ -26,16 +23,24 @@ public class AVLTree {
 	 * @return 'true' falls der Baum ein valider AVL-Baum ist, 'false' sonst
 	 */
 	public boolean validAVL() {
-		// TODO...
+		return root.validAVL();
 	}
-
+	
+	public void insertAll(int... keys) {
+		for(int k : keys) insert(k);
+	}
+	
 	/**
 	 * Diese Methode fügt einen neuen Schlüssel in den AVL-Baum ein.
 	 *
 	 * @param key der einzufügende Schlüssel
 	 */
 	public void insert(int key) {
-		// TODO...
+		if(root == null) {
+			root = new AVLTreeNode(key);
+			return;
+		}
+		root.insert(key);
 	}
 
 	/**
@@ -45,7 +50,7 @@ public class AVLTree {
 	 * @return 'true', falls der Schlüssel gefunden wurde, 'false' sonst
 	 */
 	public boolean find(int key) {
-		// TODO...
+		return root.find(key);
 	}
 
 	/**
