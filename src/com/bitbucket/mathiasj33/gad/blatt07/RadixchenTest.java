@@ -12,7 +12,7 @@ public class RadixchenTest {
 		while (scanner.hasNextInt()) {
 			int value = scanner.nextInt();
 			if(value < 0) {
-				System.out.println("Only positive values allowed.");
+				//System.out.println("Only positive values allowed.\n");
 				continue;
 			}
 			list.add(value);

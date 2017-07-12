@@ -65,4 +65,14 @@ public class BinomialTreeNode {
 			return b;
 		}
 	}
+	
+	@Override
+	public String toString() {
+		String s = ""+key;
+		if(subTrees.size() == 0) return s;
+		s+="(";
+		for(BinomialTreeNode n : subTrees) s += n + ";";
+		s=s.substring(0, s.length()-1) + ")";
+		return s;
+	}
 }
