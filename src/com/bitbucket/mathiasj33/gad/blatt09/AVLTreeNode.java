@@ -154,7 +154,7 @@ public class AVLTreeNode {
 		sb.append("}");
 		return sb.toString();
 	}
-	
+
 	private void insertChild(AVLTreeNode node, int key) {
 		if (key <= node.key) {
 			node.left = new AVLTreeNode(key);
