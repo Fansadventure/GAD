@@ -2,7 +2,7 @@ package com.bitbucket.mathiasj33.gad.blatt10;
 
 public class ABTreeLeaf extends ABTreeNode {
 	@Override
-	public void insert(int key, int a, int b) {
+	public void insert(int key) {
 		// TODO (???)
 		throw new RuntimeException("Not Implemented");
 	}

@@ -7,7 +7,7 @@ public abstract class ABTreeNode {
 	 * @param key
 	 *            der Schlüssel, der eingefügt wird
 	 */
-	public abstract void insert(int key, int a, int b);
+	public abstract void insert(int key);
 
 	/**
 	 * Diese Methode ermittelt, ob aus dem entsprechenden Knoten gestohlen

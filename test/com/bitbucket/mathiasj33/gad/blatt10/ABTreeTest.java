@@ -1,9 +1,9 @@
 package com.bitbucket.mathiasj33.gad.blatt10;
 
-import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by user on 09.07.17.
@@ -67,8 +67,6 @@ public class ABTreeTest {
         for (Integer key : toInsert1) {
             found = tree.remove(key);
             assertTrue(found);
-//            System.out.println("key: " + key);
-//            System.out.println(tree);
             assertTrue("Invalid tree by remove(" + key + ")\n" + tree, tree.validAB());
 
         }
@@ -83,10 +81,9 @@ public class ABTreeTest {
         insert(toInsert3);
         for (Integer key : toInsert3) {
             found = tree.remove(key);
-            System.out.println("key: " + key);
             assertTrue(found);
-//            System.out.println("key: " + key);
-            System.out.println(tree);
+            System.out.println("Removed " + key);
+            System.out.println(tree.dot());
             assertTrue("Invalid tree by remove(" + key + ")\n" + tree, tree.validAB());
         }
     }
