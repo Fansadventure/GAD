@@ -13,7 +13,7 @@ public class ABTree {
     }
 
     /**
-     * Diese Objektvariable speichert die Wurzel des Baumes.
+     * Diese Objektvariable speichert die Wurzel des Baumes
      */
     private ABTreeInnerNode root = null;
 
