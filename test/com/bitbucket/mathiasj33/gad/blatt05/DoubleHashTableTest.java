@@ -1,3 +1,4 @@
+/*
 package com.bitbucket.mathiasj33.gad.blatt05;
 
 import org.junit.Test;
@@ -61,3 +62,4 @@ public class DoubleHashTableTest {
 	}
 
 }
+*/

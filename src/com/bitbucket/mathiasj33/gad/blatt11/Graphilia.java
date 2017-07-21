@@ -37,7 +37,7 @@ public class Graphilia {
         // Zähle dann die Zusammenhangskomponenten, und gebe Sie in der angegebenen
         // Formatierung aus.
 
-        BFS search = new BFS();
+        BFS search = new BFS(g.size());
         search.sssp(g.getNode(0));
 
         for (Integer t : tests) {

@@ -21,6 +21,28 @@ public class Graph {
         public List<Node> getNeighbors() {
             return neighbors;
         }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "index=" + index +
+                    '}';
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Node node = (Node) o;
+
+            return index == node.index;
+        }
+
+        @Override
+        public int hashCode() {
+            return index;
+        }
     }
 
     public Graph() {
@@ -50,5 +72,9 @@ public class Graph {
     public void addEdge(Node a, Node b) {
         a.neighbors.add(b);
         b.neighbors.add(a);
+    }
+
+    public int size() {
+        return nodes.size();
     }
 }

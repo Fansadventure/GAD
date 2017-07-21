@@ -1,37 +1,33 @@
 package com.bitbucket.mathiasj33.gad.blatt11;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class BFS {
 
-    private List<Integer> depths = new ArrayList<>();
-    private List<Graph.Node> parents = new ArrayList<>();
+    private int[] depths;
+    private Graph.Node parents[];
 
-    public BFS() {
-        // TODO
-        // Sie dürfen die Signatur dieser Funktion verändern
-        // (z.B. im Parameter im Konstruktor zu übergeben),
-        // müssen das dann aber in Graphilia.java entsprechend übernehmen.
+    public BFS(int graphSize) {
+        depths = new int[graphSize];
+        Arrays.fill(depths, -1);
+        parents = new Graph.Node[graphSize];
     }
 
     /**
      * Führt eine Breitensuche vom Startknoten "start" aus, um das SSSP-Problem zu lösen.
      */
     public void sssp(Graph.Node start) {
-        Queue<Graph.Node> queue = new LinkedList<>();
+        Queue<Graph.Node> queue = new LinkedList<>();  //würde man hier einen Stack anstatt einer Queue verwenden, hätte man eine Tiefensuche
         queue.add(start);
-        depths.add(start.getIndex(), 0);
-        parents.add(start.getIndex(), null);
+        depths[start.getIndex()] = 0;
+        parents[start.getIndex()] = null;
         while (!queue.isEmpty()) {
             Graph.Node current = queue.poll();
             current.getNeighbors().forEach(n -> {
-                if (n.getIndex() >= parents.size() || parents.get(n.getIndex()) == null) {
+                if (n.getIndex() != start.getIndex() && parents[n.getIndex()] == null) {
                     queue.add(n);
-                    depths.add(n.getIndex(), depths.get(current.getIndex()) + 1);
-                    parents.add(n.getIndex(), current);
+                    depths[n.getIndex()] = depths[current.getIndex()] + 1;
+                    parents[n.getIndex()] = current;
                 }
             });
         }
@@ -42,7 +38,8 @@ public class BFS {
      * vom Startknoten überprüft werden.
      */
     public Integer getDepth(Graph.Node n) {
-        return depths.get(n.getIndex());
+        if (depths[n.getIndex()] == -1) throw new IllegalArgumentException("This node is not path of the bfs");
+        return depths[n.getIndex()];
     }
 
     /**
@@ -50,6 +47,15 @@ public class BFS {
      * des Knotens n in Richtung Startknoten abgefragt werden.
      */
     public Graph.Node getParent(Graph.Node n) {
-        return parents.get(n.getIndex());
+        if (parents[n.getIndex()] == null) throw new IllegalArgumentException("This node is not path of the bfs");
+        return parents[n.getIndex()];
+    }
+
+    public List<Integer> getFoundNodeIndices() {
+        List<Integer> foundNodeIndices = new ArrayList<>();
+        for (int i = 0; i < depths.length; i++) {
+            if(depths[i] != -1) foundNodeIndices.add(i);
+        }
+        return foundNodeIndices;
     }
 }

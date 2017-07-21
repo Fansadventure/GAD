@@ -2,6 +2,7 @@ package com.bitbucket.mathiasj33.gad.blatt11;
 
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class BFSTest {
     @Before
@@ -31,11 +32,14 @@ public class BFSTest {
         addEdge(graph, 2, 5);
         addEdge(graph, 2, 6);
 
-        BFS bfs = new BFS();
+        BFS bfs = new BFS(graph.size());
         bfs.sssp(graph.getNode(0));
         for (int i = 0; i < 11; i++) {
             System.out.println("Node " + i + ". Depth: " + bfs.getDepth(graph.getNode(i)));
         }
+        assertEquals(3, bfs.getParent(graph.getNode(10)).getIndex());
+        assertEquals(7, bfs.getParent(graph.getNode(8)).getIndex());
+        assertEquals(2, bfs.getParent(graph.getNode(6)).getIndex());
     }
 
     private void addEdge(Graph graph, int i, int j) {
